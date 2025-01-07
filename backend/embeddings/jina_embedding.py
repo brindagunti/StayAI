@@ -35,11 +35,18 @@ class JinaEmbedding(BaseEmbedding):
         )
         return self._parse_jina_response(response.json())
 
-    def _parse_jina_response(self, response: dict) -> List[List[float]]:
-        result = []
-        for embedding in response["data"]:
-            result.append(embedding["embedding"])
-        return result
+    def _parse_jina_response(self, response):
+        # Add debug logging
+        print("Jina API Response:", response)
+        
+        # Add error handling
+        if "error" in response:
+            raise Exception(f"Jina API Error: {response['error']}")
+        
+        if "data" not in response:
+            raise Exception(f"Unexpected response format from Jina API: {response}")
+        
+        return [embedding["embedding"] for embedding in response["data"]]
 
 
 if __name__ == "__main__":
