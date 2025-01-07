@@ -171,3 +171,5 @@ cython_debug/
 .pypirc
 /chroma
 /mem0_db
+
+env_template.txt
